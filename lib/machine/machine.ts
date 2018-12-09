@@ -54,6 +54,7 @@ import {
     TransformSeedToCustomProject,
 } from "@atomist/sdm-pack-spring";
 import axios from "axios";
+import { AxonSpringBootGeneratorTransform } from "../spring/generate/springBootTransforms";
 
 export function machine(
     configuration: SoftwareDeliveryMachineConfiguration,
@@ -104,16 +105,12 @@ export function machine(
     );
 
     sdm.addGeneratorCommand<SpringProjectCreationParameters>({
-        name: "create-spring",
-        intent: "create spring",
-        description: "Create a new Java Spring Boot REST service",
+        name: "create-axon-java-spring",
+        intent: "create axon-java-spring",
+        description: "Create a new Java, Spring Boot, Axon project",
         parameters: SpringProjectCreationParameterDefinitions,
-        startingPoint: GitHubRepoRef.from({ owner: "atomist-seeds", repo: "spring-rest", branch: "master" }),
-        transform: [
-            ReplaceReadmeTitle,
-            SetAtomistTeamInApplicationYml,
-            TransformSeedToCustomProject,
-        ],
+        startingPoint: GitHubRepoRef.from({ owner: "idugalic", repo: "axon-java-spring-maven-seed", branch: "master" }),
+        transform: AxonSpringBootGeneratorTransform,
     });
 
     sdm.addGeneratorCommand<SpringProjectCreationParameters>({
