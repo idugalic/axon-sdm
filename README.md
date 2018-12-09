@@ -12,7 +12,7 @@ Software Delivery Machine and how to create and develop on an SDM.
 ### Clone this repo to:
 
 ```
-~/atomist/projects/<owner>/sdm-spring
+~/atomist/projects/<owner>/axon-sdm
 ```
 Note: `<owner>` is your Github owner, e.g: idugalic
 
