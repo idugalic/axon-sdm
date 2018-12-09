@@ -1,105 +1,56 @@
-<p align="center">
-  <img src="https://images.atomist.com/sdm/SDM-Logo-Dark.png">
-</p>
+# Software Delivery Machine for Axon projects
 
-# @atomist-seeds/spring-sdm
-
-[![atomist sdm goals](http://badge.atomist.com/T29E48P34/atomist-seeds/spring-sdm/e187776c-b02e-424d-a05b-2b6c2f967010)](https://app.atomist.com/workspace/T29E48P34)
-[![npm version](https://img.shields.io/npm/v/@atomist-seeds/spring-sdm.svg)](https://www.npmjs.com/package/@atomist-seeds/spring-sdm)
-
-An [Atomist][atomist] software delivery machine (SDM) automating the
-creation, building, and delivery of [Spring][spring] and [Spring
-Boot][spring-boot] applications.
-
-[spring]: https://spring.io/ (Spring)
-[spring-boot]: http://spring.io/projects/spring-boot (Spring Boot)
-
-Software delivery machines enable you to control your delivery process
-in code.  Think of it as an API for your software delivery.  See the
-[Atomist documentation][atomist-doc] for more information on the
-concept of a software delivery machine and how to create and develop
-an SDM.
+The SDM framework enables you to control your delivery process in
+code.  Think of it as an API for your software delivery.  See this
+[introduction][atomist-doc] for more information on the concept of a
+Software Delivery Machine and how to create and develop on an SDM.
 
 [atomist-doc]: https://docs.atomist.com/ (Atomist Documentation)
 
-## Getting started
+## Getting Started - local
 
-See the [Developer Quick Start][atomist-quick] to jump straight to
-creating an SDM.
-
-[atomist-quick]: https://docs.atomist.com/quick-start/ (Atomist - Developer Quick Start)
-
-## Contributing
-
-Contributions to this project from community members are encouraged
-and appreciated. Please review the [Contributing
-Guidelines](CONTRIBUTING.md) for more information. Also see the
-[Development](#development) section in this document.
-
-## Code of conduct
-
-This project is governed by the [Code of
-Conduct](CODE_OF_CONDUCT.md). You are expected to act in accordance
-with this code by participating. Please report any unacceptable
-behavior to code-of-conduct@atomist.com.
-
-## Documentation
-
-Please see [docs.atomist.com][atomist-doc] for
-[developer][atomist-doc-sdm] documentation.
-
-[atomist-doc-sdm]: https://docs.atomist.com/developer/sdm/ (Atomist Documentation - SDM Developer)
-
-## Connect
-
-Follow [@atomist][atomist-twitter] and [The Composition][atomist-blog]
-blog related to SDM.
-
-[atomist-twitter]: https://twitter.com/atomist (Atomist on Twitter)
-[atomist-blog]: https://the-composition.com/ (The Composition - The Official Atomist Blog)
-
-## Support
-
-General support questions should be discussed in the `#support`
-channel in the [Atomist community Slack workspace][slack].
-
-If you find a problem, please create an [issue][].
-
-[issue]: https://github.com/atomist-seeds/spring-sdm/issues
-
-## Development
-
-You will need to install [Node.js][node] to build and test this
-project.
-
-[node]: https://nodejs.org/ (Node.js)
-
-### Build and test
-
-Install dependencies.
+### Clone this repo to:
 
 ```
-$ npm install
+~/atomist/projects/<owner>/sdm-spring
+```
+Note: `<owner>` is your Github owner, e.g: idugalic
+
+
+### Install the Atomist command-line utility
+
+```
+$ npm install -g @atomist/cli
 ```
 
-Use the `build` package script to compile, test, lint, and build the
-documentation.
+### Start your local SDM
 
+Install the project dependencies using NPM, compile the TypeScript, and start your SDM in local mode:
 ```
-$ npm run build
+$ cd ~/atomist/projects/<owner>/axon-sdm
+$ atomist start --local
 ```
 
-### Release
+### See messages from SDM events
 
-Releases are handled via the [Atomist SDM][atomist-sdm].  Just press
-the 'Approve' button in the Atomist dashboard or Slack.
+In order to see messages from events (not interspersed with logs), activate a message listener in another terminal:
+```
+atomist feed
+```
 
-[atomist-sdm]: https://github.com/atomist/atomist-sdm (Atomist Software Delivery Machine)
+### Adding Projects
 
----
+Further projects can be added under the expanded directory tree in two ways:
 
-Created by [Atomist][atomist].
-Need Help?  [Join our Slack workspace][slack].
+#### Configure Existing Projects
+If you already have repositories cloned/copied under your `~/atomist/projects/<owner>/`, configure them to activate the local SDM on commit.
 
-[atomist]: https://atomist.com/ (Atomist - How Teams Deliver Software)
-[slack]: https://join.atomist.com/ (Atomist Community Slack)
+Add the Atomist git hook to the existing git projects within this directory structure by running the following command/s:
+```
+$ cd ~/atomist/projects/<owner>/<repo>
+$ atomist add git hooks
+```
+#### 'atomist clone' Command
+The easiest way to add an existing project to your SDM projects is: run the atomist clone command to clone a GitHub.com repository in the right place in the expanded tree and automatically install the git hooks:
+
+`atomist clone https://github.com/<owner>/<repo>`
