@@ -7,12 +7,12 @@ import { SpringProjectCreationParameters, TransformSeedToCustomProject, ReplaceR
 
 
 /**
- * Replace the ${PROJECT_NAME} placeholder in the seed with the project name
+ * Replace the 'demo' placeholder in the seed with the project name
  */
 export const SetProjectNameInApplicationYml: CodeTransform<SpringProjectCreationParameters> =
     async (p, ci) => {
         return projectUtils.doWithFiles(p, "src/main/resources/application.yml", f =>
-            f.replace(/demo/, name(ci.parameters)));
+            f.replaceAll("demo", name(ci.parameters)));
     };
 
 function name(params: SpringProjectCreationParameters): string {
