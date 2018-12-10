@@ -54,3 +54,26 @@ $ atomist add git hooks
 The easiest way to add an existing project to your SDM projects is: run the atomist clone command to clone a GitHub.com repository in the right place in the expanded tree and automatically install the git hooks:
 
 `atomist clone https://github.com/<owner>/<repo>`
+
+### Using the SDM
+
+#### Generators
+
+##### Create new Axon (Java, Spring Boot) project
+```
+$ atomist create axon-java-spring
+```
+Creates new project under `~/atomist/projects/<owner>/` folder by using `https://github.com/idugalic/axon-java-spring-maven-seed` as a seed.
+
+Newly created project is a default/common Axon application written in Java that uses AxonServer
+
+ - as an event store, and
+ - to dispatch messages (commands, events and queries)
+
+Please follow the instructions in the README.md file to start the application.
+
+
+---
+Created by [Ivan Dugalic][idugalic]
+
+[idugalic]: http://idugalic.pro
