@@ -114,16 +114,12 @@ export function machine(
     });
 
     sdm.addGeneratorCommand<SpringProjectCreationParameters>({
-        name: "create-kotlin-spring",
-        intent: "create kotlin spring",
-        description: "Create a new Kotlin Spring Boot REST service",
+        name: "create-axon-kotlin-spring",
+        intent: "create axon-kotlin-spring",
+        description: "Create a new Kotlin, Spring Boot, Axon project",
         parameters: SpringProjectCreationParameterDefinitions,
-        startingPoint: GitHubRepoRef.from({ owner: "atomist-seeds", repo: "kotlin-rest", branch: "master" }),
-        transform: [
-            ReplaceReadmeTitle,
-            SetAtomistTeamInApplicationYml,
-            TransformSeedToCustomProject,
-        ],
+        startingPoint: GitHubRepoRef.from({ owner: "idugalic", repo: "axon-kotlin-spring-maven-seed", branch: "master" }),
+        transform: AxonSpringBootGeneratorTransform,
     });
 
     sdm.addCommand(ListBranchDeploys);
