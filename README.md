@@ -84,8 +84,10 @@ Newly created project is an Axon application written in Kotlin that uses [Axon S
 
  - as an event store, and
  - to dispatch messages (commands, events and queries)
+ 
+#### Code transforms
 
-##### Upgrade Axon 
+##### Upgrade Axon version
 ```
 $ atomist upgrade axon-core
 ```
