@@ -5,19 +5,16 @@ import {
 } from "@atomist/sdm";
 import { SpringProjectCreationParameters, TransformSeedToCustomProject, ReplaceReadmeTitle } from "@atomist/sdm-pack-spring";
 
+export const SpringBootProperiesFiles = "**/{*.yml,*.properties}"
 
 /**
  * Replace the 'demo' placeholder in the seed with the project name
  */
-export const SetProjectNameInApplicationYml: CodeTransform<SpringProjectCreationParameters> =
+export const SetProjectNameInApplicationYmlOrProperies: CodeTransform<SpringProjectCreationParameters> =
     async (p, ci) => {
-        return projectUtils.doWithFiles(p, "src/main/resources/application.yml", f =>
-            f.replaceAll("demo", name(ci.parameters)));
+        return projectUtils.doWithFiles(p, SpringBootProperiesFiles, f =>
+            f.replaceAll("demo", ci.parameters.target.repoRef.repo));
     };
-
-function name(params: SpringProjectCreationParameters): string {
-    return `${params.target.repoRef.repo}`;
-}
 
 /**
  * Default transformation to turn a Axon Spring Boot seed project into a custom project
@@ -25,6 +22,6 @@ function name(params: SpringProjectCreationParameters): string {
  */
 export const AxonSpringBootGeneratorTransform: CodeTransformOrTransforms<SpringProjectCreationParameters> = [
     ReplaceReadmeTitle,
-    SetProjectNameInApplicationYml,
+    SetProjectNameInApplicationYmlOrProperies,
     TransformSeedToCustomProject,
 ];

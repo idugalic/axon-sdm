@@ -5,7 +5,6 @@ code.  Think of it as an API for your software delivery.  See this
 [introduction][atomist-doc] for more information on the concept of a
 Software Delivery Machine and how to create and develop on an SDM.
 
-[atomist-doc]: https://docs.atomist.com/ (Atomist Documentation)
 
 ## Getting Started - local
 
@@ -57,6 +56,11 @@ The easiest way to add an existing project to your SDM projects is: run the atom
 
 ### Using the SDM
 
+List all `skills` of the SDM:
+```
+$ atomist s
+```
+
 #### Generators
 
 ##### Create new Axon (Java, Spring Boot) project
@@ -65,15 +69,57 @@ $ atomist create axon-java-spring
 ```
 Creates new project under `~/atomist/projects/<owner>/` folder by using `https://github.com/idugalic/axon-java-spring-maven-seed` as a seed.
 
-Newly created project is a default/common Axon application written in Java that uses AxonServer
+Newly created project is an Axon application written in Java that uses [Axon Server][axon-server]
 
  - as an event store, and
  - to dispatch messages (commands, events and queries)
 
-Please follow the instructions in the README.md file to start the application.
+##### Create new Axon (Kotlin, Spring Boot) project
+```
+$ atomist create axon-kotlin-spring
+```
+Creates new project under `~/atomist/projects/<owner>/` folder by using `https://github.com/idugalic/axon-kotlin-spring-maven-seed` as a seed.
 
+Newly created project is an Axon application written in Kotlin that uses [Axon Server][axon-server]
 
+ - as an event store, and
+ - to dispatch messages (commands, events and queries)
+
+##### Upgrade Axon 
+```
+$ atomist upgrade axon-core
+```
+Upgrades Axon (maven) project core dependencies (`org.axonframework`) to a new desired version.
+
+The change will be introduced within specific branch `axon-upgrade-${ci.parameters.desiredAxonCoreVersion}`. To mitigate unneeded unstable pull request creation, we wraped our code transform registration in the `makeBuildAware` function.
+
+##### Upgrade Spring Boot version
+```
+$ atomist try to upgrade Spring Boot
+```
+
+##### Add Maven dependency 
+```
+$ atomist add Maven dependency 
+```
+
+##### Add Spring Boot starter
+```
+$ atomist add spring boot starter
+```
+
+##### Add Spring Boot actuator
+```
+$ atomist add spring boot actuator
+```
+
+##### List local deployments of repository across all branches
+```
+$ atomist list branch deploys
+```
 ---
 Created by [Ivan Dugalic][idugalic]
 
 [idugalic]: http://idugalic.pro
+[axon-server]: https://download.axoniq.io/axonserver/AxonServer.zip
+[atomist-doc]: https://docs.atomist.com/ (Atomist Documentation)

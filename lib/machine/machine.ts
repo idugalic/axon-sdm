@@ -1,20 +1,4 @@
-/*
- * Copyright © 2018 Atomist, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-import { GitHubRepoRef } from "@atomist/automation-client";
+import { GitHubRepoRef, editModes, guid } from "@atomist/automation-client";
 import {
     AutoCodeInspection,
     Autofix,
@@ -35,7 +19,7 @@ import {
     goalState,
     isInLocalMode,
 } from "@atomist/sdm-core";
-import { Build } from "@atomist/sdm-pack-build";
+import { Build, makeBuildAware } from "@atomist/sdm-pack-build";
 import { singleIssuePerCategoryManaging } from "@atomist/sdm-pack-issue";
 import { codeMetrics } from "@atomist/sdm-pack-sloc";
 import {
@@ -54,7 +38,9 @@ import {
     TransformSeedToCustomProject,
 } from "@atomist/sdm-pack-spring";
 import axios from "axios";
-import { AxonSpringBootGeneratorTransform } from "../spring/generate/springBootTransforms";
+import { AxonSpringBootGeneratorTransform} from "../spring/generate/springBootTransforms";
+import { UpgradeAxonCoreLibrariesVersionParameters, UpgradeAxonCoreLibrariesVersionParameterDefinitions, SetAxonCoreVersionTransform } from "../axon/transform/axonTransforms";
+
 
 export function machine(
     configuration: SoftwareDeliveryMachineConfiguration,
@@ -121,6 +107,18 @@ export function machine(
         startingPoint: GitHubRepoRef.from({ owner: "idugalic", repo: "axon-kotlin-spring-maven-seed", branch: "master" }),
         transform: AxonSpringBootGeneratorTransform,
     });
+
+    sdm.addCodeTransformCommand<UpgradeAxonCoreLibrariesVersionParameters>(makeBuildAware({
+        name: "axon core-upgrade",
+        intent: "upgrade axon-core",
+        description: `Upgrade Axon core dependency versions`,
+        parameters: UpgradeAxonCoreLibrariesVersionParameterDefinitions,
+        transform: SetAxonCoreVersionTransform,
+        transformPresentation: ci => new editModes.PullRequest(
+            `axon-upgrade-${ci.parameters.desiredAxonCoreVersion}-${guid()}`,
+            `Upgrade Axon core versions to ${ci.parameters.desiredAxonCoreVersion}`,
+        ),
+    }));
 
     sdm.addCommand(ListBranchDeploys);
 
