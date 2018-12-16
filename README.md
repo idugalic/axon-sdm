@@ -1,10 +1,8 @@
 # Software Delivery Machine for Axon projects
 
-The SDM framework enables you to control your delivery process in
-code.  Think of it as an API for your software delivery.  See this
-[introduction][atomist-doc] for more information on the concept of a
-Software Delivery Machine and how to create and develop on an SDM.
+The SDM framework enables you to control your delivery process in code. Think of it as an API for your software delivery. See this [introduction][atomist-doc] for more information on the concept of a Software Delivery Machine and how to create and develop on an SDM.
 
+[Axon][axon] is an end-to-end development and infrastructure platform for smoothly evolving Event-Driven microservices focused on CQRS and Event Sourcing.
 
 ## Getting Started - local
 
@@ -124,4 +122,5 @@ Created by [Ivan Dugalic][idugalic]
 
 [idugalic]: http://idugalic.pro
 [axon-server]: https://download.axoniq.io/axonserver/AxonServer.zip
+[axon]: https://axoniq.io/
 [atomist-doc]: https://docs.atomist.com/ (Atomist Documentation)
