@@ -32,9 +32,10 @@ import {
     SpringProjectCreationParameterDefinitions,
     SpringProjectCreationParameters,
     springSupport,
+    FormatPomAutofix,
 } from "@atomist/sdm-pack-spring";
 import axios from "axios";
-import { UpgradeAxonCoreLibrariesVersionParameters, UpgradeAxonCoreLibrariesVersionParameterDefinitions, SetAxonCoreVersionTransform } from "../axon/transform/axonTransforms";
+import { UpgradeAxonCoreLibrariesVersionParameters, UpgradeAxonCoreLibrariesVersionParameterDefinitions, SetAxonCoreVersionTransform, ExcludeAxonServerConnectorTransform } from "../axon/transform/axonTransforms";
 import { SpringBootGeneratorTransform } from "../axon/transform/springBootTransforms";
 
 
@@ -48,7 +49,11 @@ export function machine(
             configuration,
         });
 
-    const autofix = new Autofix().with(AddLicenseFile);
+    const autofix = new Autofix()
+        .with(AddLicenseFile)
+        .with(FormatPomAutofix)
+        //.with(springFormat(configuration));
+
     const inspect = new AutoCodeInspection();
 
     const checkGoals = goals("checks")
@@ -113,6 +118,17 @@ export function machine(
         transformPresentation: ci => new editModes.PullRequest(
             `axon-upgrade-${ci.parameters.desiredAxonCoreVersion}-${guid()}`,
             `Upgrade Axon core versions to ${ci.parameters.desiredAxonCoreVersion}`,
+        ),
+    }));
+
+    sdm.addCodeTransformCommand(makeBuildAware({
+        name: "axon exclude-server-connector",
+        intent: "exclude axon-server-connector",
+        description: `Exclude Axon Server connector`,
+        transform: ExcludeAxonServerConnectorTransform,
+        transformPresentation: ci => new editModes.PullRequest(
+            `exclude-axon-server-connector-${guid()}`,
+            `Exclude Axon Server connector`,
         ),
     }));
 

@@ -1,6 +1,8 @@
 import { ParametersObject, CodeTransform } from "@atomist/sdm";
 import { XmldocFileParser } from "../../xml/XmldocFileParser";
 import { astUtils } from "@atomist/automation-client";
+import { getParseTreeNode } from "typescript";
+import { DefaultTreeNodeReplacer } from "@atomist/tree-path/lib/TreeNode";
 
 export interface UpgradeAxonCoreLibrariesVersionParameters {
     desiredAxonCoreVersion: string;
@@ -20,7 +22,7 @@ export const UpgradeAxonCoreLibrariesVersionParameterDefinitions: ParametersObje
 }
 
 /**
- * Set new version of Axon core (org.axonframework) libraries
+ * Set new version of Axon core (org.axonframework) libraries (maven)
  */
 export const SetAxonCoreVersionTransform: CodeTransform<UpgradeAxonCoreLibrariesVersionParameters> =
     async (p, ci) => {
@@ -29,5 +31,24 @@ export const SetAxonCoreVersionTransform: CodeTransform<UpgradeAxonCoreLibraries
             "//dependencies/dependency[/groupId[@innerValue='org.axonframework']]/version",
             n => {
                 n.$value = `<version>`+ci.parameters.desiredAxonCoreVersion+`</version>`;
+            });
+    };
+/**
+ * Excludes Axon Server Connector (maven)
+ */
+export const ExcludeAxonServerConnectorTransform: CodeTransform<UpgradeAxonCoreLibrariesVersionParameters> =
+    async (p, ci) => {
+        return astUtils.doWithAllMatches(p, new XmldocFileParser(),
+            "**/pom.xml",
+            "//dependencies/dependency[/artifactId[@innerValue='axon-spring-boot-starter']]/artifactId",
+            n => {
+                n.$value = 
+                `<artifactId>axon-spring-boot-starter</artifactId>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.axonframework</groupId>
+                        <artifactId>axon-server-connector</artifactId>
+                    </exclusion>
+                </exclusions>`;
             });
     };

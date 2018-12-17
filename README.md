@@ -85,13 +85,19 @@ Newly created project is an Axon application written in Kotlin that uses [Axon S
  
 #### Code transforms
 
-##### Upgrade Axon version
+##### Upgrade Axon version (maven)
 ```
 $ atomist upgrade axon-core
 ```
-Upgrades Axon (maven) project core dependencies (`org.axonframework`) to a new desired version.
+Upgrades maven Axon core dependencies (`org.axonframework`) to a new desired version.
 
 The change will be introduced within specific branch `axon-upgrade-${ci.parameters.desiredAxonCoreVersion}`. To mitigate unneeded unstable pull request creation, we wraped our code transform registration in the `makeBuildAware` function.
+
+##### Exclude Axon Server Connector (maven)
+```
+$ atomist exclude axon-server-connector
+```
+Excludes transitive maven Axon dependency `axon-server-connector` from `axon-spring-boot-starter`. To mitigate unneeded unstable pull request creation, we wraped our code transform registration in the `makeBuildAware` function.
 
 ##### Upgrade Spring Boot version
 ```
