@@ -17,10 +17,10 @@ export const SetProjectNameInApplicationYmlOrProperies: CodeTransform<SpringProj
     };
 
 /**
- * Default transformation to turn a Axon Spring Boot seed project into a custom project
+ * Default transformation to turn a Spring Boot seed project into a custom project
  * @type {(CodeTransform<SpringProjectCreationParameters> | CodeTransform)[]}
  */
-export const AxonSpringBootGeneratorTransform: CodeTransformOrTransforms<SpringProjectCreationParameters> = [
+export const SpringBootGeneratorTransform: CodeTransformOrTransforms<SpringProjectCreationParameters> = [
     ReplaceReadmeTitle,
     SetProjectNameInApplicationYmlOrProperies,
     TransformSeedToCustomProject,

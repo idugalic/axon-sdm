@@ -3,7 +3,6 @@ import {
     AutoCodeInspection,
     Autofix,
     AutofixRegistration,
-    goalContributors,
     goals,
     hasFile,
     not,
@@ -30,16 +29,13 @@ import {
     mavenBuilder,
     MavenDefaultOptions,
     MavenPerBranchDeployment,
-    ReplaceReadmeTitle,
-    SetAtomistTeamInApplicationYml,
     SpringProjectCreationParameterDefinitions,
     SpringProjectCreationParameters,
     springSupport,
-    TransformSeedToCustomProject,
 } from "@atomist/sdm-pack-spring";
 import axios from "axios";
-import { AxonSpringBootGeneratorTransform} from "../spring/generate/springBootTransforms";
 import { UpgradeAxonCoreLibrariesVersionParameters, UpgradeAxonCoreLibrariesVersionParameterDefinitions, SetAxonCoreVersionTransform } from "../axon/transform/axonTransforms";
+import { SpringBootGeneratorTransform } from "../axon/transform/springBootTransforms";
 
 
 export function machine(
@@ -96,7 +92,7 @@ export function machine(
         description: "Create a new Java, Spring Boot, Axon project",
         parameters: SpringProjectCreationParameterDefinitions,
         startingPoint: GitHubRepoRef.from({ owner: "idugalic", repo: "axon-java-spring-maven-seed", branch: "master" }),
-        transform: AxonSpringBootGeneratorTransform,
+        transform: SpringBootGeneratorTransform,
     });
 
     sdm.addGeneratorCommand<SpringProjectCreationParameters>({
@@ -105,7 +101,7 @@ export function machine(
         description: "Create a new Kotlin, Spring Boot, Axon project",
         parameters: SpringProjectCreationParameterDefinitions,
         startingPoint: GitHubRepoRef.from({ owner: "idugalic", repo: "axon-kotlin-spring-maven-seed", branch: "master" }),
-        transform: AxonSpringBootGeneratorTransform,
+        transform: SpringBootGeneratorTransform,
     });
 
     sdm.addCodeTransformCommand<UpgradeAxonCoreLibrariesVersionParameters>(makeBuildAware({
