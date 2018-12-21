@@ -4,9 +4,9 @@ The SDM framework enables you to control your delivery process in code. Think of
 
 [Axon][axon] is an end-to-end development and infrastructure platform for smoothly evolving Event-Driven microservices focused on CQRS and Event Sourcing.
 
-## Table od Contents
+## Table of Contents
 - [Software Delivery Machine for Axon projects](#software-delivery-machine-for-axon-projects)
-  - [Table od Contents](#table-od-contents)
+  - [Table of Contents](#table-of-contents)
   - [Getting Started - local mode](#getting-started---local-mode)
     - [Clone this repo to:](#clone-this-repo-to)
     - [Install the Atomist command-line utility](#install-the-atomist-command-line-utility)
