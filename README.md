@@ -178,9 +178,7 @@ Instead of `atomist start` at the command line, start it up in a debugger. In [V
 If you want the SDM to run in local mode, put “local” in the ATOMIST_MODE environment variable (eg. `"ATOMIST_MODE": "local"`).
 
 ---
-Created by [Ivan Dugalic][idugalic]
 
-[idugalic]: http://idugalic.pro
 [axon-server]: https://download.axoniq.io/axonserver/AxonServer.zip
 [axon]: https://axoniq.io/
 [atomist-doc]: https://docs.atomist.com/ (Atomist Documentation)
