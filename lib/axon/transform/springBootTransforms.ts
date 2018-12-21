@@ -3,7 +3,8 @@ import {
     CodeTransform,
     CodeTransformOrTransforms,
 } from "@atomist/sdm";
-import { SpringProjectCreationParameters, TransformSeedToCustomProject, ReplaceReadmeTitle } from "@atomist/sdm-pack-spring";
+import { SpringProjectCreationParameters, TransformSeedToCustomProject } from "@atomist/sdm-pack-spring";
+import { ReplaceReadmeTitle } from "./axonTransforms";
 
 export const SpringBootProperiesFiles = "**/{*.yml,*.properties}"
 

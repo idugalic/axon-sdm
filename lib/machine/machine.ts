@@ -18,7 +18,7 @@ import {
     goalState,
     isInLocalMode,
 } from "@atomist/sdm-core";
-import { Build, makeBuildAware } from "@atomist/sdm-pack-build";
+import { Build } from "@atomist/sdm-pack-build";
 import { singleIssuePerCategoryManaging } from "@atomist/sdm-pack-issue";
 import { codeMetrics } from "@atomist/sdm-pack-sloc";
 import {
@@ -35,7 +35,7 @@ import {
     FormatPomAutofix,
 } from "@atomist/sdm-pack-spring";
 import axios from "axios";
-import { UpgradeAxonCoreLibrariesVersionParameters, UpgradeAxonCoreLibrariesVersionParameterDefinitions, SetAxonCoreVersionTransform, ExcludeAxonServerConnectorTransform } from "../axon/transform/axonTransforms";
+import { VersionParameters, SetAxonCoreVersionTransform, ExcludeAxonServerConnectorTransform, AddAxonAMQPMavenDependenciesTransform } from "../axon/transform/axonTransforms";
 import { SpringBootGeneratorTransform } from "../axon/transform/springBootTransforms";
 
 
@@ -52,7 +52,7 @@ export function machine(
     const autofix = new Autofix()
         .with(AddLicenseFile)
         .with(FormatPomAutofix)
-        //.with(springFormat(configuration));
+    //.with(springFormat(configuration));
 
     const inspect = new AutoCodeInspection();
 
@@ -92,7 +92,7 @@ export function machine(
     );
 
     sdm.addGeneratorCommand<SpringProjectCreationParameters>({
-        name: "create-axon-java-spring",
+        name: "create axon-java-spring",
         intent: "create axon-java-spring",
         description: "Create a new Java, Spring Boot, Axon project",
         parameters: SpringProjectCreationParameterDefinitions,
@@ -101,7 +101,7 @@ export function machine(
     });
 
     sdm.addGeneratorCommand<SpringProjectCreationParameters>({
-        name: "create-axon-kotlin-spring",
+        name: "create axon-kotlin-spring",
         intent: "create axon-kotlin-spring",
         description: "Create a new Kotlin, Spring Boot, Axon project",
         parameters: SpringProjectCreationParameterDefinitions,
@@ -109,20 +109,20 @@ export function machine(
         transform: SpringBootGeneratorTransform,
     });
 
-    sdm.addCodeTransformCommand<UpgradeAxonCoreLibrariesVersionParameters>(makeBuildAware({
-        name: "axon core-upgrade",
-        intent: "upgrade axon-core",
-        description: `Upgrade Axon core dependency versions`,
-        parameters: UpgradeAxonCoreLibrariesVersionParameterDefinitions,
+    sdm.addCodeTransformCommand<VersionParameters>({
+        name: "set axon-version",
+        intent: "set axon-version",
+        description: `Set Axon core dependency versions`,
+        paramsMaker: VersionParameters,
         transform: SetAxonCoreVersionTransform,
         transformPresentation: ci => new editModes.PullRequest(
-            `axon-upgrade-${ci.parameters.desiredAxonCoreVersion}-${guid()}`,
-            `Upgrade Axon core versions to ${ci.parameters.desiredAxonCoreVersion}`,
+            `set-axon-version-${ci.parameters.version}-${guid()}`,
+            `Set Axon version to ${ci.parameters.version}`,
         ),
-    }));
+    });
 
-    sdm.addCodeTransformCommand(makeBuildAware({
-        name: "axon exclude-server-connector",
+    sdm.addCodeTransformCommand({
+        name: "exclude axon-server-connector",
         intent: "exclude axon-server-connector",
         description: `Exclude Axon Server connector`,
         transform: ExcludeAxonServerConnectorTransform,
@@ -130,7 +130,19 @@ export function machine(
             `exclude-axon-server-connector-${guid()}`,
             `Exclude Axon Server connector`,
         ),
-    }));
+    });
+
+    sdm.addCodeTransformCommand({
+        name: "add amqp",
+        intent: "add amqp",
+        description: `Add Axon AMQP dependencies`,
+        paramsMaker: VersionParameters,
+        transform: AddAxonAMQPMavenDependenciesTransform,
+        transformPresentation: ci => new editModes.PullRequest(
+            `add-amqp-dependencies-${guid()}`,
+            `Add AMQP dependencies`,
+        ),
+    });
 
     sdm.addCommand(ListBranchDeploys);
 

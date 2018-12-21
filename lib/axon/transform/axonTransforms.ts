@@ -1,49 +1,100 @@
-import { ParametersObject, CodeTransform } from "@atomist/sdm";
+import { CodeTransform, CodeTransformOrTransforms } from "@atomist/sdm";
 import { XmldocFileParser } from "../../xml/XmldocFileParser";
-import { astUtils } from "@atomist/automation-client";
-import { getParseTreeNode } from "typescript";
-import { DefaultTreeNodeReplacer } from "@atomist/tree-path/lib/TreeNode";
+import { astUtils, NoParameters, projectUtils, Parameter, Parameters } from "@atomist/automation-client";
+import { addDependencyTransform, SpringProjectCreationParameters } from "@atomist/sdm-pack-spring";
 
-export interface UpgradeAxonCoreLibrariesVersionParameters {
-    desiredAxonCoreVersion: string;
-}
+const AxonDefaultGroup = "org.axonframework";
+const SpringDefaultGroup = "org.springframework.boot";
 
-export const DesiredAxonCoreVersion = "4.0.3";
-
-export const UpgradeAxonCoreLibrariesVersionParameterDefinitions: ParametersObject = {
-    desiredAxonCoreVersion: {
-        displayName: "Desired Axon Spring Boot starter version",
-        description: "The desired Axon Spring Boot starter version across these repos",
-        pattern: /^.+$/,
-        validInput: "Semantic version",
-        required: true,
-        defaultValue: DesiredAxonCoreVersion,
-    },
+/**
+ * Add Axon dependency function (CodeTransform)
+ * 
+ * @param artifact 
+ * @param version 
+ * @param group 
+ */
+function addAxonMavenDependencyTransform(artifact: string, version: string, group: string = AxonDefaultGroup): CodeTransform {
+    return addDependencyTransform({ artifact, group, version });
 }
 
 /**
- * Set new version of Axon core (org.axonframework) libraries (maven)
+ * Add Spring dependency function (CodeTransform)
+ * 
+ * @param artifact
+ * @param group 
  */
-export const SetAxonCoreVersionTransform: CodeTransform<UpgradeAxonCoreLibrariesVersionParameters> =
+function addSpringMavenDependencyTransform(artifact: string, group: string = SpringDefaultGroup): CodeTransform {
+    return addDependencyTransform({ artifact, group, version: undefined });
+}
+
+/**
+ * Change the title block in README file
+ * 
+ * @param params 
+ */
+function titleBlock(params: SpringProjectCreationParameters): string {
+    return `# ${params.target.repoRef.repo}
+Based on seed project \`${params.source.repoRef.owner}:${params.source.repoRef.repo}\`
+## `;
+}
+
+/**
+ * Add Axon Spring AMQP spring boot starter 
+ */
+const AddAxonSpringBootStarterAMQPMavenDependencyTransform: CodeTransform<VersionParameters> =
+    async (p, ci) => addAxonMavenDependencyTransform("axon-amqp-spring-boot-starter", ci.parameters.version, "org.axonframework.extensions.amqp")(p, ci)
+
+/**
+ * Add Spring AMQP spring boot starter 
+ */
+const AddSpringBootStarterAMQPMavenDependencyTransform: CodeTransform<NoParameters> =
+    async (p, ci) => addSpringMavenDependencyTransform("spring-boot-starter-amqp")(p, ci)
+
+@Parameters()
+export class VersionParameters {
+    @Parameter({
+        displayName: "Desired  version",
+        description: "The desired version across these repos",
+        pattern: /^.+$/,
+        validInput: "Semantic version",
+        required: true,
+    })
+    version: string;
+}
+
+/**
+* Update the readme - code transform
+*/
+export const ReplaceReadmeTitle: CodeTransform<SpringProjectCreationParameters> =
+    async (p, ci) => {
+        return projectUtils.doWithFiles(p, "README.md", async readMe => {
+            await readMe.replace(/^#[\s\S]*?## /, titleBlock(ci.parameters));
+        });
+    };
+
+/**
+ * Set new version of Axon core (org.axonframework) libraries (maven) - code transform
+ */
+export const SetAxonCoreVersionTransform: CodeTransform<VersionParameters> =
     async (p, ci) => {
         return astUtils.doWithAllMatches(p, new XmldocFileParser(),
             "**/pom.xml",
             "//dependencies/dependency[/groupId[@innerValue='org.axonframework']]/version",
             n => {
-                n.$value = `<version>`+ci.parameters.desiredAxonCoreVersion+`</version>`;
+                n.$value = `<version>` + ci.parameters.version + `</version>`;
             });
     };
 /**
- * Excludes Axon Server Connector (maven)
+ * Excludes Axon Server Connector (maven) - code transform
  */
-export const ExcludeAxonServerConnectorTransform: CodeTransform<UpgradeAxonCoreLibrariesVersionParameters> =
+export const ExcludeAxonServerConnectorTransform: CodeTransform<NoParameters> =
     async (p, ci) => {
         return astUtils.doWithAllMatches(p, new XmldocFileParser(),
             "**/pom.xml",
             "//dependencies/dependency[/artifactId[@innerValue='axon-spring-boot-starter']]/artifactId",
             n => {
-                n.$value = 
-                `<artifactId>axon-spring-boot-starter</artifactId>
+                n.$value =
+                    `<artifactId>axon-spring-boot-starter</artifactId>
                 <exclusions>
                     <exclusion>
                         <groupId>org.axonframework</groupId>
@@ -52,3 +103,11 @@ export const ExcludeAxonServerConnectorTransform: CodeTransform<UpgradeAxonCoreL
                 </exclusions>`;
             });
     };
+
+/**
+ * Add AMQP integration by composing multiple code transforms  - code transform
+ */
+export const AddAxonAMQPMavenDependenciesTransform: CodeTransformOrTransforms<VersionParameters> = [
+    AddAxonSpringBootStarterAMQPMavenDependencyTransform,
+    AddSpringBootStarterAMQPMavenDependencyTransform
+];

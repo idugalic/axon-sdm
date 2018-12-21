@@ -6,6 +6,18 @@ The SDM framework enables you to control your delivery process in code. Think of
 
 ## Getting Started - local
 
+When you run this SDM in local mode, it operates in the privacy of your laptop. This SDM can:
+
+ - run goals in respond to a commit.
+ - the SDM can run your tests in the background
+ - deploy locally, and be sure that you’re doing manual testing on committed code
+ - apply autofixes directly in your repository
+ - check code inspections and tell you when you’ve violated them
+ - execute commands
+ - generate new projects
+ - perform transforms on one repository or on many repositories
+ - do inspections on one or many repositories
+
 ### Clone this repo to:
 
 ```
@@ -19,6 +31,7 @@ Note: `<owner>` is your Github owner, e.g: idugalic
 ```
 $ npm install -g @atomist/cli
 ```
+> Note:  Make sure that you have `node` and `npm` available.
 
 ### Start your local SDM
 
@@ -28,29 +41,12 @@ $ cd ~/atomist/projects/<owner>/axon-sdm
 $ atomist start --local
 ```
 
-### See messages from SDM events
+### See messages from SDM
 
 In order to see messages from events (not interspersed with logs), activate a message listener in another terminal:
 ```
 atomist feed
 ```
-
-### Adding Projects
-
-Further projects can be added under the expanded directory tree in two ways:
-
-#### Configure Existing Projects
-If you already have repositories cloned/copied under your `~/atomist/projects/<owner>/`, configure them to activate the local SDM on commit.
-
-Add the Atomist git hook to the existing git projects within this directory structure by running the following command/s:
-```
-$ cd ~/atomist/projects/<owner>/<repo>
-$ atomist add git hooks
-```
-#### 'atomist clone' Command
-The easiest way to add an existing project to your SDM projects is: run the atomist clone command to clone a GitHub.com repository in the right place in the expanded tree and automatically install the git hooks:
-
-`atomist clone https://github.com/<owner>/<repo>`
 
 ### Using the SDM
 
@@ -85,44 +81,50 @@ Newly created project is an Axon application written in Kotlin that uses [Axon S
  
 #### Code transforms
 
-##### Upgrade Axon version (maven)
+##### Set Axon version (maven)
 ```
-$ atomist upgrade axon-core
+$ atomist set axon-version
 ```
-Upgrades maven Axon core dependencies (`org.axonframework`) to a new desired version.
+Sets maven Axon core dependencies (`org.axonframework`) to a new desired version.
 
-The change will be introduced within specific branch `axon-upgrade-${ci.parameters.desiredAxonCoreVersion}`. To mitigate unneeded unstable pull request creation, we wraped our code transform registration in the `makeBuildAware` function.
+The change will be introduced within specific branch `axon-upgrade-<new-version>`.
 
 ##### Exclude Axon Server Connector (maven)
 ```
 $ atomist exclude axon-server-connector
 ```
-Excludes transitive maven Axon dependency `axon-server-connector` from `axon-spring-boot-starter`. To mitigate unneeded unstable pull request creation, we wraped our code transform registration in the `makeBuildAware` function.
+Excludes transitive maven Axon dependency `axon-server-connector` from `axon-spring-boot-starter`.
 
-##### Upgrade Spring Boot version
+The change will be introduced within specific branch `exclude-axon-server-connector`.
+
+##### Add Spring AMQP  (maven)
+```
+$ atomist add amqp
+```
+Adds maven dependencies required for Spring AMQP integration:  `axon-amqp-spring-boot-starter` and `spring-boot-starter-amqp`
+
+The change will be introduced within specific branch `add-amqp-dependencies`.
+
+
+##### Other code transforms
+
+This SDM is built on top of the Spring SDM, so you can use other code transfroms that are available by Spring SDM:
 ```
 $ atomist try to upgrade Spring Boot
 ```
-
-##### Add Maven dependency 
 ```
 $ atomist add Maven dependency 
 ```
-
-##### Add Spring Boot starter
 ```
 $ atomist add spring boot starter
 ```
-
-##### Add Spring Boot actuator
 ```
 $ atomist add spring boot actuator
 ```
-
-##### List local deployments of repository across all branches
 ```
 $ atomist list branch deploys
 ```
+
 ---
 Created by [Ivan Dugalic][idugalic]
 
