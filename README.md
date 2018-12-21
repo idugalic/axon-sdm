@@ -4,7 +4,27 @@ The SDM framework enables you to control your delivery process in code. Think of
 
 [Axon][axon] is an end-to-end development and infrastructure platform for smoothly evolving Event-Driven microservices focused on CQRS and Event Sourcing.
 
-## Getting Started - local
+## Table od Contents
+- [Software Delivery Machine for Axon projects](#software-delivery-machine-for-axon-projects)
+  - [Table od Contents](#table-od-contents)
+  - [Getting Started - local mode](#getting-started---local-mode)
+    - [Clone this repo to:](#clone-this-repo-to)
+    - [Install the Atomist command-line utility](#install-the-atomist-command-line-utility)
+    - [Start your local SDM](#start-your-local-sdm)
+    - [See messages from SDM](#see-messages-from-sdm)
+    - [Using the SDM](#using-the-sdm)
+      - [Generators](#generators)
+        - [Create new Axon (Java, Spring Boot) project](#create-new-axon-java-spring-boot-project)
+        - [Create new Axon (Kotlin, Spring Boot) project](#create-new-axon-kotlin-spring-boot-project)
+      - [Code transforms](#code-transforms)
+        - [Set Axon version (maven)](#set-axon-version-maven)
+        - [Exclude Axon Server Connector (maven)](#exclude-axon-server-connector-maven)
+        - [Add Spring AMQP (maven)](#add-spring-amqp-maven)
+        - [Other code transforms](#other-code-transforms)
+  - [Getting Started - team mode](#getting-started---team-mode)
+  - [Deploying your SDM](#deploying-your-sdm)
+
+## Getting Started - local mode
 
 When you run this SDM in local mode, it operates in the privacy of your laptop. This SDM can:
 
@@ -124,6 +144,18 @@ $ atomist add spring boot actuator
 ```
 $ atomist list branch deploys
 ```
+
+## Getting Started - team mode
+
+[In team mode](https://docs.atomist.com/developer/team/), your SDM connects to the Atomist service.
+
+## Deploying your SDM
+
+You can run Software Delivery Machines (SDMs) in many different environments, ranging from your laptop or data center to Platform-as-a-Service offerings like Heroku and Pivotal Cloud Foundry.
+
+Atomist also supports running SDMs as Docker containers. This allows you to operate them in Kubernetes clusters or Google Container Engine, for example.
+
+This [document]((https://docs.atomist.com/developer/sdm-deploy/)) explains various ways to run SDMs.
 
 ---
 Created by [Ivan Dugalic][idugalic]

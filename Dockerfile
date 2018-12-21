@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-LABEL maintainer="Atomist <docker@atomist.com>"
+LABEL maintainer="Ivan Dugalic <ivan.dugalic@axoniq.io>"
 
 RUN apt-get update && apt-get install -y \
         dumb-init \
@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install -y \
         git \
     && rm -rf /var/lib/apt/lists/*
 
-RUN git config --global user.email "bot@atomist.com" \
+RUN git config --global user.email "ivan.dugalic@axoniq.io" \
     && git config --global user.name "Atomist Bot"
 
 RUN curl -sL https://deb.nodesource.com/setup_11.x | bash - \

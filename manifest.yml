@@ -1,0 +1,10 @@
+applications:
+- name: axon-sdm
+  command: node node_modules/.bin/atm-start
+  memory: 1024M
+  routes:
+  - route: sdm.axoniq.io
+  buildpack: https://github.com/cloudfoundry/nodejs-buildpack
+  env:
+    SUPPRESS_NO_CONFIG_WARNING: true
+    NODE_ENV: production
