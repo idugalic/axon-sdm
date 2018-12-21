@@ -23,6 +23,7 @@ The SDM framework enables you to control your delivery process in code. Think of
         - [Other code transforms](#other-code-transforms)
   - [Getting Started - team mode](#getting-started---team-mode)
   - [Deploying your SDM](#deploying-your-sdm)
+  - [Debugging an SDM](#debugging-an-sdm)
 
 ## Getting Started - local mode
 
@@ -156,6 +157,25 @@ You can run Software Delivery Machines (SDMs) in many different environments, ra
 Atomist also supports running SDMs as Docker containers. This allows you to operate them in Kubernetes clusters or Google Container Engine, for example.
 
 This [document](https://docs.atomist.com/developer/sdm-deploy/) explains various ways to run SDMs.
+
+## Debugging an SDM
+
+You can debug your SDM on your laptop.
+
+Instead of `atomist start` at the command line, start it up in a debugger. In [VSCode](https://code.visualstudio.com/docs/editor/debugging), the debug configuration looks like:
+
+```
+{
+  "type": "node",
+  "request": "launch",
+  "name": "Launch SDM",
+  "program": "${workspaceFolder}/node_modules/@atomist/automation-client/bin/start.js",
+  "env": {
+      "ATOMIST_MODE": ""
+  },
+}
+```
+If you want the SDM to run in local mode, put “local” in the ATOMIST_MODE environment variable (eg. `"ATOMIST_MODE": "local"`).
 
 ---
 Created by [Ivan Dugalic][idugalic]
