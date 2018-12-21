@@ -155,7 +155,7 @@ You can run Software Delivery Machines (SDMs) in many different environments, ra
 
 Atomist also supports running SDMs as Docker containers. This allows you to operate them in Kubernetes clusters or Google Container Engine, for example.
 
-This [document]((https://docs.atomist.com/developer/sdm-deploy/)) explains various ways to run SDMs.
+This [document](https://docs.atomist.com/developer/sdm-deploy/) explains various ways to run SDMs.
 
 ---
 Created by [Ivan Dugalic][idugalic]
