@@ -36,7 +36,7 @@ import {
 } from "@atomist/sdm-pack-spring";
 import axios from "axios";
 import { VersionParameters, SetAxonCoreVersionTransform, ExcludeAxonServerConnectorTransform, AddAxonAMQPMavenDependenciesTransform } from "../axon/transform/axonTransforms";
-import { SpringBootGeneratorTransform } from "../axon/transform/springBootTransforms";
+import { SpringBootGeneratorTransform, SerializerParameters, SetSerializerInApplicationProperies } from "../axon/transform/springBootTransforms";
 
 
 export function machine(
@@ -128,19 +128,31 @@ export function machine(
         transform: ExcludeAxonServerConnectorTransform,
         transformPresentation: ci => new editModes.PullRequest(
             `exclude-axon-server-connector-${guid()}`,
-            `Exclude Axon Server connector`,
+            `Exclude Axon Server Connector`,
         ),
     });
 
     sdm.addCodeTransformCommand({
         name: "add amqp",
         intent: "add amqp",
-        description: `Add Axon AMQP dependencies`,
+        description: `Add Axon AMQP dependencies to Spring Boot project`,
         paramsMaker: VersionParameters,
         transform: AddAxonAMQPMavenDependenciesTransform,
         transformPresentation: ci => new editModes.PullRequest(
             `add-amqp-dependencies-${guid()}`,
             `Add AMQP dependencies`,
+        ),
+    });
+    
+    sdm.addCodeTransformCommand({
+        name: "set serializer",
+        intent: "set serializer",
+        description: `Set desired Serializer for Axon Spring Boot project`,
+        paramsMaker: SerializerParameters,
+        transform: SetSerializerInApplicationProperies,
+        transformPresentation: ci => new editModes.PullRequest(
+            `set-serializer-${ci.parameters.serializer}-${guid()}`,
+            `Set serializer to ${ci.parameters.serializer}`,
         ),
     });
 

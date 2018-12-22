@@ -4,6 +4,18 @@ The SDM framework enables you to control your delivery process in code. Think of
 
 [Axon][axon] is an end-to-end development and infrastructure platform for smoothly evolving Event-Driven microservices focused on CQRS and Event Sourcing.
 
+This SDM is build on top of the [official Atomist Spring Boot SDM](https://github.com/atomist/sdm-pack-spring), it can:
+
+ - run goals in respond to a commit.
+   - run your tests in the background
+   - deploy locally or in the cloud, and be sure that you’re doing manual testing on committed code
+   - apply autofixes directly in your repository
+   - check code inspections and tell you when you’ve violated them
+ - execute commands
+   - [generate new Axon projects](#generators) from seeds
+   - [perform transforms](#code-transforms) on existing Axon project (repository), or on many repositories at once
+   - do inspections on one or many Axon projects (repositories)
+
 ## Table of Contents
 - [Software Delivery Machine for Axon projects](#software-delivery-machine-for-axon-projects)
   - [Table of Contents](#table-of-contents)
@@ -14,12 +26,13 @@ The SDM framework enables you to control your delivery process in code. Think of
     - [See messages from SDM](#see-messages-from-sdm)
     - [Using the SDM](#using-the-sdm)
       - [Generators](#generators)
-        - [Create new Axon (Java, Spring Boot) project](#create-new-axon-java-spring-boot-project)
-        - [Create new Axon (Kotlin, Spring Boot) project](#create-new-axon-kotlin-spring-boot-project)
+        - [Create new Axon (java, maven, spring boot) project](#create-new-axon-java-maven-spring-boot-project)
+        - [Create new Axon (kotlin, maven, spring boot) project](#create-new-axon-kotlin-maven-spring-boot-project)
       - [Code transforms](#code-transforms)
         - [Set Axon version (maven)](#set-axon-version-maven)
         - [Exclude Axon Server Connector (maven)](#exclude-axon-server-connector-maven)
-        - [Add Spring AMQP (maven)](#add-spring-amqp-maven)
+        - [Add Spring (Boot) AMQP dependencies (maven, spring boot)](#add-spring-boot-amqp-dependencies-maven-spring-boot)
+        - [Set desired Serializer (maven, spring boot)](#set-desired-serializer-maven-spring-boot)
         - [Other code transforms](#other-code-transforms)
   - [Getting Started - team mode](#getting-started---team-mode)
   - [Deploying your SDM](#deploying-your-sdm)
@@ -27,17 +40,7 @@ The SDM framework enables you to control your delivery process in code. Think of
 
 ## Getting Started - local mode
 
-When you run this SDM in local mode, it operates in the privacy of your laptop. This SDM can:
-
- - run goals in respond to a commit.
- - the SDM can run your tests in the background
- - deploy locally, and be sure that you’re doing manual testing on committed code
- - apply autofixes directly in your repository
- - check code inspections and tell you when you’ve violated them
- - execute commands
- - generate new projects
- - perform transforms on one repository or on many repositories
- - do inspections on one or many repositories
+When you run this SDM in local mode, it operates in the privacy of your laptop. 
 
 ### Clone this repo to:
 
@@ -78,7 +81,7 @@ $ atomist s
 
 #### Generators
 
-##### Create new Axon (Java, Spring Boot) project
+##### Create new Axon (java, maven, spring boot) project
 ```
 $ atomist create axon-java-spring
 ```
@@ -89,7 +92,7 @@ Newly created project is an Axon application written in Java that uses [Axon Ser
  - as an event store, and
  - to dispatch messages (commands, events and queries)
 
-##### Create new Axon (Kotlin, Spring Boot) project
+##### Create new Axon (kotlin, maven, spring boot) project
 ```
 $ atomist create axon-kotlin-spring
 ```
@@ -118,11 +121,19 @@ Excludes transitive maven Axon dependency `axon-server-connector` from `axon-spr
 
 The change will be introduced within specific branch `exclude-axon-server-connector`.
 
-##### Add Spring AMQP  (maven)
+##### Add Spring (Boot) AMQP dependencies (maven, spring boot)
 ```
 $ atomist add amqp
 ```
-Adds maven dependencies required for Spring AMQP integration:  `axon-amqp-spring-boot-starter` and `spring-boot-starter-amqp`
+Adds maven dependencies required for Spring Boot AMQP integration:  `axon-amqp-spring-boot-starter` and `spring-boot-starter-amqp`
+
+The change will be introduced within specific branch `set-serializer-<desired serializer>`.
+
+##### Set desired Serializer  (maven, spring boot)
+```
+$ atomist set serializer
+```
+Sets desired Serializer for Axon Spring Boot project. Possible values are `default`, `xstream`, `java`, and `jackson`
 
 The change will be introduced within specific branch `add-amqp-dependencies`.
 
