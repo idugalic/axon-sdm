@@ -37,7 +37,7 @@ export const SetSerializerInApplicationProperies: CodeTransform<SerializerParame
         const properties = await parseProperties(p, "src/main/resources/application.properties");
         await properties.addProperty({
             key: "axon.serializer.general",
-            value: "jackson",
+            value: ci.parameters.serializer,
             comment: "Sets event, command and query serializers to Jackson. Possible values for these keys are: `default`, `xstream`, `java`, and `jackson`",
         });
     };
