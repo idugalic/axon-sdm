@@ -27,7 +27,9 @@ This SDM is build on top of the [official Atomist Spring Boot SDM](https://githu
     - [Using the SDM](#using-the-sdm)
       - [Generators](#generators)
         - [Create new Axon (java, maven, spring boot) project](#create-new-axon-java-maven-spring-boot-project)
+        - [Create new Axon (java, maven, spring boot) project with structure](#create-new-axon-java-maven-spring-boot-project-with-structure)
         - [Create new Axon (kotlin, maven, spring boot) project](#create-new-axon-kotlin-maven-spring-boot-project)
+        - [Create new Axon (kotlin, maven, spring boot) project with structure](#create-new-axon-kotlin-maven-spring-boot-project-with-structure)
       - [Code transforms](#code-transforms)
         - [Set Axon version (maven)](#set-axon-version-maven)
         - [Exclude Axon Server Connector (maven)](#exclude-axon-server-connector-maven)
@@ -74,7 +76,7 @@ atomist feed
 
 ### Using the SDM
 
-List all `skills` of the SDM:
+List all `skills` (commands that you can use to transfrom your project) of the SDM:
 ```
 $ atomist s
 ```
@@ -92,6 +94,20 @@ Newly created project is an Axon application written in Java that uses [Axon Ser
  - as an event store, and
  - to dispatch messages (commands, events and queries)
 
+##### Create new Axon (java, maven, spring boot) project with structure
+```
+$ atomist axon-java-spring-with-structure
+```
+Creates new project under `~/atomist/projects/<owner>/` folder by using `https://github.com/idugalic/axon-java-spring-maven-seed` (branch `with-structure`) as a seed.
+
+Newly created project is an Axon application written in Java that uses [Axon Server][axon-server].
+
+ - as an event store, and
+ - to dispatch messages (commands, events and queries)
+
+> Basic package structure is included (command, query, api, ...).
+> Architecture test included. It checks if the classes in `command` and `query` packages are package private. This enables loose coupling and high cohesion.
+
 ##### Create new Axon (kotlin, maven, spring boot) project
 ```
 $ atomist create axon-kotlin-spring
@@ -103,13 +119,27 @@ Newly created project is an Axon application written in Kotlin that uses [Axon S
  - as an event store, and
  - to dispatch messages (commands, events and queries)
  
+##### Create new Axon (kotlin, maven, spring boot) project with structure
+```
+$ atomist create axon-kotlin-spring-with-structure
+```
+Creates new project under `~/atomist/projects/<owner>/` folder by using `https://github.com/idugalic/axon-kotlin-spring-maven-seed` (branch `with-structure`) as a seed.
+
+Newly created project is an Axon application written in Kotlin that uses [Axon Server][axon-server]
+
+ - as an event store, and
+ - to dispatch messages (commands, events and queries)
+ 
+> Basic package structure is included (command, query, api, ...).
+> Architecture test included. It checks if the classes in `command` and `query` packages are acessible from this pages only. This enables loose coupling and high cohesion.
+
 #### Code transforms
 
 ##### Set Axon version (maven)
 ```
 $ atomist set axon-version
 ```
-Sets maven Axon core dependencies (`org.axonframework`) to a new desired version.
+Sets all maven Axon dependencies with the group (`org.axonframework`) to a new desired version.
 
 The change will be introduced within specific branch `axon-upgrade-<new-version>`.
 
@@ -129,7 +159,7 @@ Adds maven dependencies required for Spring Boot AMQP integration:  `axon-amqp-s
 
 The change will be introduced within specific branch `set-serializer-<desired serializer>`.
 
-##### Set desired Serializer  (maven, spring boot)
+##### Set desired Serializer (maven, spring boot)
 ```
 $ atomist set serializer
 ```

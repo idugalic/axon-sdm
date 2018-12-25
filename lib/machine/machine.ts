@@ -45,14 +45,13 @@ export function machine(
 
     const sdm: SoftwareDeliveryMachine = createSoftwareDeliveryMachine(
         {
-            name: "Spring software delivery machine",
+            name: "Axon software delivery machine",
             configuration,
         });
 
     const autofix = new Autofix()
         .with(AddLicenseFile)
         .with(FormatPomAutofix)
-    //.with(springFormat(configuration));
 
     const inspect = new AutoCodeInspection();
 
@@ -93,7 +92,7 @@ export function machine(
 
     sdm.addGeneratorCommand<SpringProjectCreationParameters>({
         name: "create axon-java-spring",
-        intent: "create axon-java-spring",
+        intent: ["create axon-java-spring", "create axon"],
         description: "Create a new Java, Spring Boot, Axon project",
         parameters: SpringProjectCreationParameterDefinitions,
         startingPoint: GitHubRepoRef.from({ owner: "idugalic", repo: "axon-java-spring-maven-seed", branch: "master" }),
@@ -101,11 +100,29 @@ export function machine(
     });
 
     sdm.addGeneratorCommand<SpringProjectCreationParameters>({
+        name: "create axon-java-spring-with-structure",
+        intent: ["create axon-java-spring-with-structure", "create axon+"],
+        description: "Create a new Java, Spring Boot, Axon project with structure",
+        parameters: SpringProjectCreationParameterDefinitions,
+        startingPoint: GitHubRepoRef.from({ owner: "idugalic", repo: "axon-java-spring-maven-seed", branch: "with-structure" }),
+        transform: SpringBootGeneratorTransform,
+    });
+
+    sdm.addGeneratorCommand<SpringProjectCreationParameters>({
         name: "create axon-kotlin-spring",
-        intent: "create axon-kotlin-spring",
+        intent: ["create axon-kotlin-spring", "create axon-kotlin"],
         description: "Create a new Kotlin, Spring Boot, Axon project",
         parameters: SpringProjectCreationParameterDefinitions,
         startingPoint: GitHubRepoRef.from({ owner: "idugalic", repo: "axon-kotlin-spring-maven-seed", branch: "master" }),
+        transform: SpringBootGeneratorTransform,
+    });
+
+    sdm.addGeneratorCommand<SpringProjectCreationParameters>({
+        name: "create axon-kotlin-spring-with-structure",
+        intent: ["create axon-kotlin-spring-with-structure", "create axon-kotlin+"],
+        description: "Create a new Kotlin, Spring Boot, Axon project with structure",
+        parameters: SpringProjectCreationParameterDefinitions,
+        startingPoint: GitHubRepoRef.from({ owner: "idugalic", repo: "axon-kotlin-spring-maven-seed", branch: "with-structure" }),
         transform: SpringBootGeneratorTransform,
     });
 
