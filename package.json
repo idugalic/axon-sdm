@@ -1,8 +1,8 @@
 {
   "name": "axon-sdm",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "my new project",
-  "author": "idugalic",
+  "author": "Ivan Dugalic",
   "license": "Apache-2.0",
   "homepage": "https://github.com/idugalic/axon-sdm#readme",
   "repository": {
@@ -23,9 +23,9 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "dependencies": {
-    "@atomist/automation-client": "1.1.0",
-    "@atomist/sdm": "1.1.0",
-    "@atomist/sdm-core": "1.1.0",
+    "@atomist/automation-client": "1.2.0",
+    "@atomist/sdm": "1.2.0",
+    "@atomist/sdm-core": "1.2.0",
     "@atomist/sdm-pack-build": "1.0.3",
     "@atomist/sdm-pack-issue": "1.1.0",
     "@atomist/sdm-pack-sloc": "1.0.1",
@@ -37,7 +37,7 @@
     "lodash": "^4.17.10"
   },
   "devDependencies": {
-    "@atomist/sdm-local": "1.0.3",
+    "@atomist/sdm-local": "1.0.4",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.7.1",
     "@types/power-assert": "^1.5.0",

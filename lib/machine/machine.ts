@@ -71,18 +71,20 @@ export function machine(
         whenPushSatisfies(IsMaven).setGoals(buildGoals),
         whenPushSatisfies(HasSpringBootPom, HasSpringBootApplicationClass, IsMaven).setGoals(deployGoals),
     );
-
+    // Spring Extension pack offering: https://github.com/atomist/sdm-pack-spring/blob/master/lib/spring.ts
     sdm.addExtensionPacks(
         springSupport({
             inspectGoal: inspect,
             autofixGoal: autofix,
             review: {
-                cloudNative: true,
-                springStyle: true,
+                cloudNative: false, // true: ImportIoFileReviewer, ImportDotStarReviewer, HardcodedPropertyReviewer, ProvidedDependencyReviewer
+                springStyle: true, // true: OldSpringBootVersionReviewer, UnnecessaryComponentScanReviewer, MutableInjectionsReviewer, NonSpecificMvcAnnotationsReviewer
             },
-            autofix: {},
+            autofix: {
+                springStyle: true // true: UnnecessaryComponentScanAutofix, FixAutowiredOnSoleConstructors
+            },
             reviewListeners: isInLocalMode() ? [] : [
-                singleIssuePerCategoryManaging("sdm-pack-spring"),
+                singleIssuePerCategoryManaging("axon"),
             ],
         }),
         codeMetrics(),
