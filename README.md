@@ -38,6 +38,7 @@ This SDM is build on top of the [official Atomist Spring Boot SDM](https://githu
         - [Other code transforms](#other-code-transforms)
   - [Getting Started - team mode](#getting-started---team-mode)
   - [Deploying your SDM](#deploying-your-sdm)
+    - [Running in Docker](#running-in-docker)
   - [Debugging an SDM](#debugging-an-sdm)
 
 ## Getting Started - local mode
@@ -191,6 +192,7 @@ $ atomist list branch deploys
 
 [In team mode](https://docs.atomist.com/developer/team/), your SDM connects to the Atomist service.
 
+
 ## Deploying your SDM
 
 You can run Software Delivery Machines (SDMs) in many different environments, ranging from your laptop or data center to Platform-as-a-Service offerings like Heroku and Pivotal Cloud Foundry.
@@ -198,6 +200,21 @@ You can run Software Delivery Machines (SDMs) in many different environments, ra
 Atomist also supports running SDMs as Docker containers. This allows you to operate them in Kubernetes clusters or Google Container Engine, for example.
 
 This [document](https://docs.atomist.com/developer/sdm-deploy/) explains various ways to run SDMs.
+
+### Running in Docker
+
+With the `Dockerfile` in place, you can start the Docker build:
+```
+$ npm run build 
+$ docker build . -t axon-sdm
+```
+Running the Docker container locally:
+```
+$ docker run -d -e ATOMIST_CONFIG='{"workspaceIds": ["YOUR_WORSPACE_IDs"],"apiKey":"YOUR_API_KEY"}' --name my-axon-sdm axon-sdm
+```
+> In Docker, the SDM will only run in team mode.
+> 
+> On the [web interface](https://app.atomist.com), you can find the Workspace ID on the settings page (click the gear), and your API Key by clicking on your username in the upper right.
 
 ## Debugging an SDM
 
