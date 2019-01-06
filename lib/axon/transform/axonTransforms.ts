@@ -1,17 +1,17 @@
+import { astUtils, NoParameters, Parameter, Parameters, projectUtils } from "@atomist/automation-client";
 import { CodeTransform, CodeTransformOrTransforms } from "@atomist/sdm";
-import { XmldocFileParser } from "../../xml/XmldocFileParser";
-import { astUtils, NoParameters, projectUtils, Parameter, Parameters } from "@atomist/automation-client";
 import { addDependencyTransform, SpringProjectCreationParameters } from "@atomist/sdm-pack-spring";
+import { XmldocFileParser } from "../../xml/XmldocFileParser";
 
 const AxonDefaultGroup = "org.axonframework";
 const SpringDefaultGroup = "org.springframework.boot";
 
 /**
  * Add Axon dependency function (CodeTransform)
- * 
- * @param artifact 
- * @param version 
- * @param group 
+ *
+ * @param artifact
+ * @param version
+ * @param group
  */
 function addAxonMavenDependencyTransform(artifact: string, version: string, group: string = AxonDefaultGroup): CodeTransform {
     return addDependencyTransform({ artifact, group, version });
@@ -19,9 +19,9 @@ function addAxonMavenDependencyTransform(artifact: string, version: string, grou
 
 /**
  * Add Spring dependency function (CodeTransform)
- * 
+ *
  * @param artifact
- * @param group 
+ * @param group
  */
 function addSpringMavenDependencyTransform(artifact: string, group: string = SpringDefaultGroup): CodeTransform {
     return addDependencyTransform({ artifact, group, version: undefined });
@@ -29,8 +29,8 @@ function addSpringMavenDependencyTransform(artifact: string, group: string = Spr
 
 /**
  * Change the title block in README file
- * 
- * @param params 
+ *
+ * @param params
  */
 function titleBlock(params: SpringProjectCreationParameters): string {
     return `# ${params.target.repoRef.repo}
@@ -39,16 +39,17 @@ Based on seed project \`${params.source.repoRef.owner}:${params.source.repoRef.r
 }
 
 /**
- * Add Axon Spring AMQP spring boot starter 
+ * Add Axon Spring AMQP spring boot starter
  */
 const AddAxonSpringBootStarterAMQPMavenDependencyTransform: CodeTransform<VersionParameters> =
-    async (p, ci) => addAxonMavenDependencyTransform("axon-amqp-spring-boot-starter", ci.parameters.version, "org.axonframework.extensions.amqp")(p, ci)
+    async (p, ci) =>
+    addAxonMavenDependencyTransform("axon-amqp-spring-boot-starter", ci.parameters.version, "org.axonframework.extensions.amqp")(p, ci);
 
 /**
- * Add Spring AMQP spring boot starter 
+ * Add Spring AMQP spring boot starter
  */
 const AddSpringBootStarterAMQPMavenDependencyTransform: CodeTransform<NoParameters> =
-    async (p, ci) => addSpringMavenDependencyTransform("spring-boot-starter-amqp")(p, ci)
+    async (p, ci) => addSpringMavenDependencyTransform("spring-boot-starter-amqp")(p, ci);
 
 @Parameters()
 export class VersionParameters {
@@ -59,12 +60,12 @@ export class VersionParameters {
         validInput: "Semantic version",
         required: true,
     })
-    version: string;
+    public version: string;
 }
 
 /**
-* Update the readme - code transform
-*/
+ * Update the readme - code transform
+ */
 export const ReplaceReadmeTitle: CodeTransform<SpringProjectCreationParameters> =
     async (p, ci) => {
         return projectUtils.doWithFiles(p, "README.md", async readMe => {
@@ -109,5 +110,5 @@ export const ExcludeAxonServerConnectorTransform: CodeTransform<NoParameters> =
  */
 export const AddAxonAMQPMavenDependenciesTransform: CodeTransformOrTransforms<VersionParameters> = [
     AddAxonSpringBootStarterAMQPMavenDependencyTransform,
-    AddSpringBootStarterAMQPMavenDependencyTransform
+    AddSpringBootStarterAMQPMavenDependencyTransform,
 ];

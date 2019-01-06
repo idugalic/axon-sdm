@@ -1,4 +1,4 @@
-import { GitHubRepoRef, editModes, guid } from "@atomist/automation-client";
+import { editModes, GitHubRepoRef, guid } from "@atomist/automation-client";
 import {
     AutoCodeInspection,
     Autofix,
@@ -22,6 +22,7 @@ import { Build } from "@atomist/sdm-pack-build";
 import { singleIssuePerCategoryManaging } from "@atomist/sdm-pack-issue";
 import { codeMetrics } from "@atomist/sdm-pack-sloc";
 import {
+    FormatPomAutofix,
     HasSpringBootApplicationClass,
     HasSpringBootPom,
     IsMaven,
@@ -32,12 +33,15 @@ import {
     SpringProjectCreationParameterDefinitions,
     SpringProjectCreationParameters,
     springSupport,
-    FormatPomAutofix,
 } from "@atomist/sdm-pack-spring";
 import axios from "axios";
-import { VersionParameters, SetAxonCoreVersionTransform, ExcludeAxonServerConnectorTransform, AddAxonAMQPMavenDependenciesTransform } from "../axon/transform/axonTransforms";
-import { SpringBootGeneratorTransform, SerializerParameters, SetSerializerInApplicationProperies } from "../axon/transform/springBootTransforms";
-
+import {
+    AddAxonAMQPMavenDependenciesTransform,
+    ExcludeAxonServerConnectorTransform,
+    SetAxonCoreVersionTransform,
+    VersionParameters,
+} from "../axon/transform/axonTransforms";
+import { SerializerParameters, SetSerializerInApplicationProperies, SpringBootGeneratorTransform } from "../axon/transform/springBootTransforms";
 
 export function machine(
     configuration: SoftwareDeliveryMachineConfiguration,
@@ -51,7 +55,7 @@ export function machine(
 
     const autofix = new Autofix()
         .with(AddLicenseFile)
-        .with(FormatPomAutofix)
+        .with(FormatPomAutofix);
 
     const inspect = new AutoCodeInspection();
 
@@ -77,11 +81,11 @@ export function machine(
             inspectGoal: inspect,
             autofixGoal: autofix,
             review: {
-                cloudNative: false, // true: ImportIoFileReviewer, ImportDotStarReviewer, HardcodedPropertyReviewer, ProvidedDependencyReviewer
-                springStyle: true, // true: OldSpringBootVersionReviewer, UnnecessaryComponentScanReviewer, MutableInjectionsReviewer, NonSpecificMvcAnnotationsReviewer
+                cloudNative: false, // true: ImportIoFileReviewer, ImportDotStarReviewer, HardcodedPropertyReviewer, ...
+                springStyle: true, // true: OldSpringBootVersionReviewer, UnnecessaryComponentScanReviewer, ...
             },
             autofix: {
-                springStyle: true // true: UnnecessaryComponentScanAutofix, FixAutowiredOnSoleConstructors
+                springStyle: true, // true: UnnecessaryComponentScanAutofix, FixAutowiredOnSoleConstructors
             },
             reviewListeners: isInLocalMode() ? [] : [
                 singleIssuePerCategoryManaging("axon"),
@@ -162,7 +166,7 @@ export function machine(
             `Add AMQP dependencies`,
         ),
     });
-    
+
     sdm.addCodeTransformCommand({
         name: "set serializer",
         intent: "set serializer",

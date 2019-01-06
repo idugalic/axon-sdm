@@ -1,12 +1,12 @@
-import { projectUtils, NoParameters, Parameters, Parameter } from "@atomist/automation-client";
+import { NoParameters, Parameter, Parameters, projectUtils } from "@atomist/automation-client";
 import {
     CodeTransform,
     CodeTransformOrTransforms,
 } from "@atomist/sdm";
-import { SpringProjectCreationParameters, TransformSeedToCustomProject, parseProperties } from "@atomist/sdm-pack-spring";
+import { parseProperties, SpringProjectCreationParameters, TransformSeedToCustomProject } from "@atomist/sdm-pack-spring";
 import { ReplaceReadmeTitle } from "./axonTransforms";
 
-export const SpringBootProperiesOrYMLFiles = "**/{*.yml,*.properties}"
+export const SpringBootProperiesOrYMLFiles = "**/{*.yml,*.properties}";
 
 /**
  * Replace the 'demo' placeholder in the seeds application.properties or application.yml with the project name
@@ -26,7 +26,7 @@ export class SerializerParameters {
         validInput: "Possible values: default, xstream, java, and jackson",
         required: true,
     })
-    serializer: string;
+    public serializer: string;
 }
 
 /**
@@ -38,7 +38,7 @@ export const SetSerializerInApplicationProperies: CodeTransform<SerializerParame
         await properties.addProperty({
             key: "axon.serializer.general",
             value: ci.parameters.serializer,
-            comment: "Sets event, command and query serializers to Jackson. Possible values for these keys are: `default`, `xstream`, `java`, and `jackson`",
+            comment: "Sets event, command and query serializers to: `default`, `xstream`, `java`, and `jackson`",
         });
     };
 

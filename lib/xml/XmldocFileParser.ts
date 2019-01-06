@@ -15,7 +15,7 @@ import {
  */
 export class XmldocFileParser implements FileParser<XmldocTreeNode> {
 
-    public rootName = "xml";
+    public rootName: string = "xml";
 
     public async toAst(f: ProjectFile): Promise<XmldocTreeNode> {
         try {
