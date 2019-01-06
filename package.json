@@ -29,7 +29,7 @@
     "@atomist/sdm-pack-build": "1.0.3",
     "@atomist/sdm-pack-issue": "1.1.0",
     "@atomist/sdm-pack-sloc": "1.0.1",
-    "@atomist/sdm-pack-spring": "1.1.1-fix-ivan-issues.20181219154511",
+    "@atomist/sdm-pack-spring": "^1.1.1-fix-ivan-issues.20190106032953",
     "@types/dateformat": "^1.0.1",
     "@types/lodash": "^4.14.108",
     "axios": "^0.18.0",
