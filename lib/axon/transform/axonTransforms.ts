@@ -14,7 +14,7 @@ const SpringDefaultGroup = "org.springframework.boot";
  * @param group
  */
 function addAxonMavenDependencyTransform(artifact: string, version: string, group: string = AxonDefaultGroup): CodeTransform {
-    return addDependencyTransform({ artifact, group, version });
+    return addDependencyTransform({artifact, group, version});
 }
 
 /**
@@ -24,7 +24,7 @@ function addAxonMavenDependencyTransform(artifact: string, version: string, grou
  * @param group
  */
 function addSpringMavenDependencyTransform(artifact: string, group: string = SpringDefaultGroup): CodeTransform {
-    return addDependencyTransform({ artifact, group, version: undefined });
+    return addDependencyTransform({artifact, group, version: undefined});
 }
 
 /**
@@ -43,7 +43,7 @@ Based on seed project \`${params.source.repoRef.owner}:${params.source.repoRef.r
  */
 const AddAxonSpringBootStarterAMQPMavenDependencyTransform: CodeTransform<VersionParameters> =
     async (p, ci) =>
-    addAxonMavenDependencyTransform("axon-amqp-spring-boot-starter", ci.parameters.version, "org.axonframework.extensions.amqp")(p, ci);
+        addAxonMavenDependencyTransform("axon-amqp-spring-boot-starter", ci.parameters.version, "org.axonframework.extensions.amqp")(p, ci);
 
 /**
  * Add Spring AMQP spring boot starter

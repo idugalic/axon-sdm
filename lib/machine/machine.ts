@@ -41,7 +41,11 @@ import {
     SetAxonCoreVersionTransform,
     VersionParameters,
 } from "../axon/transform/axonTransforms";
-import { SerializerParameters, SetSerializerInApplicationProperies, SpringBootGeneratorTransform } from "../axon/transform/springBootTransforms";
+import {
+    SerializerParameters,
+    SetSerializerInApplicationProperies,
+    SpringBootGeneratorTransform,
+} from "../axon/transform/springBootTransforms";
 
 export function machine(
     configuration: SoftwareDeliveryMachineConfiguration,
@@ -64,7 +68,7 @@ export function machine(
         .plan(inspect, new PushImpact()).after(autofix);
 
     const buildGoals = goals("build")
-        .plan(new Build().with({ ...MavenDefaultOptions, builder: mavenBuilder() }))
+        .plan(new Build().with({...MavenDefaultOptions, builder: mavenBuilder()}))
         .after(autofix);
 
     const deployGoals = goals("deploy")
@@ -101,7 +105,7 @@ export function machine(
         intent: ["create axon-java-spring", "create axon"],
         description: "Create a new Java, Spring Boot, Axon project",
         parameters: SpringProjectCreationParameterDefinitions,
-        startingPoint: GitHubRepoRef.from({ owner: "idugalic", repo: "axon-java-spring-maven-seed", branch: "master" }),
+        startingPoint: GitHubRepoRef.from({owner: "idugalic", repo: "axon-java-spring-maven-seed", branch: "master"}),
         transform: SpringBootGeneratorTransform,
     });
 
@@ -110,7 +114,11 @@ export function machine(
         intent: ["create axon-java-spring-with-structure", "create axon+"],
         description: "Create a new Java, Spring Boot, Axon project with structure",
         parameters: SpringProjectCreationParameterDefinitions,
-        startingPoint: GitHubRepoRef.from({ owner: "idugalic", repo: "axon-java-spring-maven-seed", branch: "with-structure" }),
+        startingPoint: GitHubRepoRef.from({
+            owner: "idugalic",
+            repo: "axon-java-spring-maven-seed",
+            branch: "with-structure",
+        }),
         transform: SpringBootGeneratorTransform,
     });
 
@@ -119,7 +127,7 @@ export function machine(
         intent: ["create axon-kotlin-spring", "create axon-kotlin"],
         description: "Create a new Kotlin, Spring Boot, Axon project",
         parameters: SpringProjectCreationParameterDefinitions,
-        startingPoint: GitHubRepoRef.from({ owner: "idugalic", repo: "axon-kotlin-spring-maven-seed", branch: "master" }),
+        startingPoint: GitHubRepoRef.from({owner: "idugalic", repo: "axon-kotlin-spring-maven-seed", branch: "master"}),
         transform: SpringBootGeneratorTransform,
     });
 
@@ -128,7 +136,11 @@ export function machine(
         intent: ["create axon-kotlin-spring-with-structure", "create axon-kotlin+"],
         description: "Create a new Kotlin, Spring Boot, Axon project with structure",
         parameters: SpringProjectCreationParameterDefinitions,
-        startingPoint: GitHubRepoRef.from({ owner: "idugalic", repo: "axon-kotlin-spring-maven-seed", branch: "with-structure" }),
+        startingPoint: GitHubRepoRef.from({
+            owner: "idugalic",
+            repo: "axon-kotlin-spring-maven-seed",
+            branch: "with-structure",
+        }),
         transform: SpringBootGeneratorTransform,
     });
 

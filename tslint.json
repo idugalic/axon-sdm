@@ -5,62 +5,98 @@
   "rules": {
     "adjacent-overload-signatures": true,
     "align": {
-      "options": ["parameters", "statements"]
+      "options": [
+        "parameters",
+        "statements"
+      ]
     },
     "array-type": {
-      "options": ["array-simple"]
+      "options": [
+        "array-simple"
+      ]
     },
     "arrow-parens": {
-      "options": ["ban-single-arg-parens"]
+      "options": [
+        "ban-single-arg-parens"
+      ]
     },
     "arrow-return-shorthand": true,
     "await-promise": true,
     "ban-types": {
       "options": [
-        ["Object", "Avoid using the `Object` type. Did you mean `object`?"],
+        [
+          "Object",
+          "Avoid using the `Object` type. Did you mean `object`?"
+        ],
         [
           "Function",
           "Avoid using the `Function` type. Prefer a specific function type, like `() => void`."
         ],
-        ["Boolean", "Avoid using the `Boolean` type. Did you mean `boolean`?"],
-        ["Number", "Avoid using the `Number` type. Did you mean `number`?"],
-        ["String", "Avoid using the `String` type. Did you mean `string`?"],
-        ["Symbol", "Avoid using the `Symbol` type. Did you mean `symbol`?"]
+        [
+          "Boolean",
+          "Avoid using the `Boolean` type. Did you mean `boolean`?"
+        ],
+        [
+          "Number",
+          "Avoid using the `Number` type. Did you mean `number`?"
+        ],
+        [
+          "String",
+          "Avoid using the `String` type. Did you mean `string`?"
+        ],
+        [
+          "Symbol",
+          "Avoid using the `Symbol` type. Did you mean `symbol`?"
+        ]
       ]
     },
     "callable-types": true,
     "class-name": true,
     "comment-format": {
-      "options": ["check-space"]
+      "options": [
+        "check-space"
+      ]
     },
     "curly": true,
     "cyclomatic-complexity": {
       "severity": "warning",
-      "options": [10]
+      "options": [
+        10
+      ]
     },
     "eofline": true,
     "forin": true,
     "import-spacing": true,
     "indent": {
-      "options": ["spaces"]
+      "options": [
+        "spaces"
+      ]
     },
     "interface-name": {
-      "options": ["never-prefix"]
+      "options": [
+        "never-prefix"
+      ]
     },
     "interface-over-type-literal": true,
     "jsdoc-format": true,
     "label-position": true,
     "max-classes-per-file": {
       "severity": "warning",
-      "options": [7]
+      "options": [
+        7
+      ]
     },
     "max-file-line-count": {
       "severity": "warning",
-      "options": [400]
+      "options": [
+        400
+      ]
     },
     "max-line-length": {
       "severity": "warning",
-      "options": [150]
+      "options": [
+        150
+      ]
     },
     "member-access": true,
     "member-ordering": false,
@@ -73,7 +109,13 @@
     "no-consecutive-blank-lines": true,
     "no-console": {
       "severity": "warning",
-      "options": ["debug", "error", "info", "log", "warn"]
+      "options": [
+        "debug",
+        "error",
+        "info",
+        "log",
+        "warn"
+      ]
     },
     "no-construct": true,
     "no-debugger": true,
@@ -85,7 +127,9 @@
     "no-eval": true,
     "no-floating-promises": true,
     "no-implicit-dependencies": {
-      "options": ["dev"]
+      "options": [
+        "dev"
+      ]
     },
     "no-import-side-effect": true,
     "no-inferred-empty-object-type": true,
@@ -121,7 +165,9 @@
     "no-var-keyword": true,
     "no-var-requires": true,
     "object-literal-key-quotes": {
-      "options": ["consistent-as-needed"]
+      "options": [
+        "consistent-as-needed"
+      ]
     },
     "object-literal-shorthand": true,
     "object-literal-sort-keys": false,
@@ -135,10 +181,15 @@
       ]
     },
     "one-variable-per-declaration": {
-      "options": ["ignore-for-loop"]
+      "options": [
+        "ignore-for-loop"
+      ]
     },
     "only-arrow-functions": {
-      "options": ["allow-declarations", "allow-named-functions"]
+      "options": [
+        "allow-declarations",
+        "allow-named-functions"
+      ]
     },
     "ordered-imports": {
       "options": {
@@ -151,11 +202,16 @@
     "prefer-for-of": true,
     "prefer-readonly": true,
     "quotemark": {
-      "options": ["double", "avoid-escape"]
+      "options": [
+        "double",
+        "avoid-escape"
+      ]
     },
     "radix": true,
     "semicolon": {
-      "options": ["always"]
+      "options": [
+        "always"
+      ]
     },
     "space-before-function-paren": {
       "options": {
@@ -174,7 +230,9 @@
       }
     },
     "triple-equals": {
-      "options": ["allow-null-check"]
+      "options": [
+        "allow-null-check"
+      ]
     },
     "typedef": [
       true,
@@ -205,7 +263,11 @@
     "unified-signatures": true,
     "use-isnan": true,
     "variable-name": {
-      "options": ["ban-keywords", "check-format", "allow-pascal-case"]
+      "options": [
+        "ban-keywords",
+        "check-format",
+        "allow-pascal-case"
+      ]
     },
     "whitespace": {
       "options": [

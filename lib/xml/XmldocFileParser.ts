@@ -78,7 +78,7 @@ class XmldocTreeNodeImpl implements XmldocTreeNode {
     public get $value(): string {
         // toString may not be accurate, as per xmldoc readme, but we can work with it
         // as the offset will be accurate
-        const fromXmldocToString = this.xd.toString({ preserveWhitespace: true, compressed: false, trimmed: false });
+        const fromXmldocToString = this.xd.toString({preserveWhitespace: true, compressed: false, trimmed: false});
         const fromRawDoc = this.rawDoc.substr(this.$offset, fromXmldocToString.length);
         if (fromRawDoc !== fromXmldocToString) {
             // In this case, check we have all the non whitespace characters from the toString value
