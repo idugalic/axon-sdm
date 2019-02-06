@@ -34,7 +34,7 @@ function addSpringMavenDependencyTransform(artifact: string, group: string = Spr
  */
 function titleBlock(params: SpringProjectCreationParameters): string {
     return `# ${params.target.repoRef.repo}
-Based on seed project \`${params.source.repoRef.owner}:${params.source.repoRef.repo}\`
+> Based on seed project [${params.source.repoRef.url}/tree/${params.source.repoRef.branch}](${params.source.repoRef.url}/tree/${params.source.repoRef.branch})
 ## `;
 }
 

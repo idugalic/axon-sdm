@@ -99,7 +99,7 @@ Newly created project is an Axon application written in Java that uses [Axon Ser
 ```
 $ atomist axon-java-spring-with-structure
 ```
-Creates new project under `~/atomist/projects/<owner>/` folder by using `https://github.com/idugalic/axon-java-spring-maven-seed` (branch `with-structure`) as a seed.
+Creates new project under `~/atomist/projects/<owner>/` folder by using `https://github.com/idugalic/axon-java-spring-maven-seed/tree/with-structure` (branch `with-structure`) as a seed.
 
 Newly created project is an Axon application written in Java that uses [Axon Server][axon-server].
 
@@ -124,7 +124,7 @@ Newly created project is an Axon application written in Kotlin that uses [Axon S
 ```
 $ atomist create axon-kotlin-spring-with-structure
 ```
-Creates new project under `~/atomist/projects/<owner>/` folder by using `https://github.com/idugalic/axon-kotlin-spring-maven-seed` (branch `with-structure`) as a seed.
+Creates new project under `~/atomist/projects/<owner>/` folder by using `https://github.com/idugalic/axon-kotlin-spring-maven-seed/tree/with-structure` (branch `with-structure`) as a seed.
 
 Newly created project is an Axon application written in Kotlin that uses [Axon Server][axon-server]
 
@@ -158,7 +158,7 @@ $ atomist add amqp
 ```
 Adds maven dependencies required for Spring Boot AMQP integration:  `axon-amqp-spring-boot-starter` and `spring-boot-starter-amqp`
 
-The change will be introduced within specific branch `set-serializer-<desired serializer>`.
+The change will be introduced within specific branch `add-amqp-dependencies`.
 
 ##### Set desired Serializer (maven, spring boot)
 ```
@@ -166,7 +166,7 @@ $ atomist set serializer
 ```
 Sets desired Serializer for Axon Spring Boot project. Possible values are `default`, `xstream`, `java`, and `jackson`
 
-The change will be introduced within specific branch `add-amqp-dependencies`.
+The change will be introduced within specific branch `set-serializer-<desired serializer>`.
 
 
 ##### Other code transforms
