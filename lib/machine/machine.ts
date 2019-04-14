@@ -22,7 +22,6 @@ import { Build } from "@atomist/sdm-pack-build";
 import { singleIssuePerCategoryManaging } from "@atomist/sdm-pack-issue";
 import { codeMetrics } from "@atomist/sdm-pack-sloc";
 import {
-    FormatPomAutofix,
     HasSpringBootApplicationClass,
     HasSpringBootPom,
     IsMaven,
@@ -58,8 +57,7 @@ export function machine(
         });
 
     const autofix = new Autofix()
-        .with(AddLicenseFile)
-        .with(FormatPomAutofix);
+        .with(AddLicenseFile);
 
     const inspect = new AutoCodeInspection();
 

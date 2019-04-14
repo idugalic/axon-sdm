@@ -47,4 +47,4 @@ RUN npm ci \
 COPY . .
 
 # Remove before running in production
-ENV ATOMIST_ENV development
+#ENV ATOMIST_ENV development
