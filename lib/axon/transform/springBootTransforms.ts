@@ -18,7 +18,7 @@ export const SpringBootProperiesOrYMLFiles = "**/{*.yml,*.properties}";
 export const SetProjectNameInApplicationYmlOrProperies: CodeTransform<SpringProjectCreationParameters> =
     async (p, ci) => {
         return projectUtils.doWithFiles(p, SpringBootProperiesOrYMLFiles, f =>
-            f.replaceAll("demo", ci.parameters.target.repoRef.repo));
+            f.replaceAll("demo", ci.parameters.enteredArtifactId));
     };
 
 @Parameters()

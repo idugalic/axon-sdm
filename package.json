@@ -23,13 +23,13 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "dependencies": {
-    "@atomist/automation-client": "1.2.0",
-    "@atomist/sdm": "1.2.0",
-    "@atomist/sdm-core": "1.2.0",
-    "@atomist/sdm-pack-build": "1.0.3",
-    "@atomist/sdm-pack-issue": "1.1.0",
-    "@atomist/sdm-pack-sloc": "1.0.1",
-    "@atomist/sdm-pack-spring": "1.1.1-master.20190106231219",
+    "@atomist/automation-client": "1.3.0",
+    "@atomist/sdm": "1.4.1",
+    "@atomist/sdm-core": "1.4.0",
+    "@atomist/sdm-pack-build": "1.0.4",
+    "@atomist/sdm-pack-issue": "1.2.1",
+    "@atomist/sdm-pack-sloc": "1.0.2",
+    "@atomist/sdm-pack-spring": "1.1.1",
     "@atomist/tree-path": "^1.0.1",
     "@types/dateformat": "^1.0.1",
     "@types/lodash": "^4.14.108",
@@ -39,7 +39,7 @@
     "xmldoc": "^1.1.2"
   },
   "devDependencies": {
-    "@atomist/sdm-local": "1.0.4",
+    "@atomist/sdm-local": "1.0.5",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.7.1",
     "@types/power-assert": "^1.5.0",
@@ -51,7 +51,7 @@
     "supervisor": "^0.12.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
-    "typedoc": "^0.13.0",
+    "typedoc": "^0.14.2",
     "typescript": "^3.1.6"
   },
   "directories": {
