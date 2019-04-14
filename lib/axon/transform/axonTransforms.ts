@@ -32,8 +32,10 @@ function addSpringMavenDependencyTransform(artifact: string, group: string = Spr
  *
  * @param params
  */
-function titleBlock(params: SpringProjectCreationParameters): string {
-    return `# ${params.description}`;
+
+function titleBlock(name: string): string {
+    return `# ${name}
+## `;
 }
 
 /**
@@ -65,9 +67,9 @@ export class VersionParameters {
  * Update the readme - code transform
  */
 export const ReplaceReadmeTitle: CodeTransform<SpringProjectCreationParameters> =
-    async (p, ci) => {
-        return projectUtils.doWithFiles(p, "README.md", async readMe => {
-            await readMe.replace(/^#[\s\S]*?## /, titleBlock(ci.parameters));
+    async (project, c, params) => {
+        return projectUtils.doWithFiles(project, "README.md", async readMe => {
+            await readMe.replace(/^#[\s\S]*?## /, titleBlock(project.name));
         });
     };
 

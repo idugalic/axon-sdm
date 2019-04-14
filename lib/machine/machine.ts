@@ -15,7 +15,7 @@ import {
 import {
     createSoftwareDeliveryMachine,
     gitHubGoalStatus,
-    goalState,
+    goalState, IsInLocalMode,
     isInLocalMode,
 } from "@atomist/sdm-core";
 import { Build } from "@atomist/sdm-pack-build";
@@ -69,13 +69,13 @@ export function machine(
         .plan(new Build().with({...MavenDefaultOptions, builder: mavenBuilder()}))
         .after(autofix);
 
-    const deployGoals = goals("deploy")
+    const localDeployGoals = goals("deploy")
         .plan(new MavenPerBranchDeployment()).after(buildGoals);
 
     sdm.withPushRules(
         onAnyPush().setGoals(checkGoals),
         whenPushSatisfies(IsMaven).setGoals(buildGoals),
-        whenPushSatisfies(HasSpringBootPom, HasSpringBootApplicationClass, IsMaven).setGoals(deployGoals),
+        whenPushSatisfies(HasSpringBootPom, HasSpringBootApplicationClass, IsMaven, IsInLocalMode).setGoals(localDeployGoals),
     );
     // Spring Extension pack offering: https://github.com/atomist/sdm-pack-spring/blob/master/lib/spring.ts
     sdm.addExtensionPacks(

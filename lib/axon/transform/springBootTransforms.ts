@@ -16,9 +16,9 @@ export const SpringBootProperiesOrYMLFiles = "**/{*.yml,*.properties}";
  * Replace the 'demo' placeholder in the seeds application.properties or application.yml with the project name
  */
 export const SetProjectNameInApplicationYmlOrProperies: CodeTransform<SpringProjectCreationParameters> =
-    async (p, ci) => {
-        return projectUtils.doWithFiles(p, SpringBootProperiesOrYMLFiles, f =>
-            f.replaceAll("demo", ci.parameters.enteredArtifactId));
+    async (project, ci) => {
+        return projectUtils.doWithFiles(project, SpringBootProperiesOrYMLFiles, f =>
+            f.replaceAll("demo", project.name));
     };
 
 @Parameters()

@@ -97,7 +97,7 @@ Newly created project is an Axon application written in Java that uses [Axon Ser
 
 ##### Create new Axon (java, maven, spring boot) project with structure
 ```
-$ atomist axon-java-spring-with-structure
+$ atomist create axon-java-spring-with-structure
 ```
 Creates new project under `~/atomist/projects/<owner>/` folder by using `https://github.com/idugalic/axon-java-spring-maven-seed/tree/with-structure` (branch `with-structure`) as a seed.
 
