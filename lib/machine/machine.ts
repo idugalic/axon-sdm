@@ -1,4 +1,4 @@
-import { editModes, GitHubRepoRef, guid } from "@atomist/automation-client";
+import {editModes, GitHubRepoRef, guid} from "@atomist/automation-client";
 import {
     AutoCodeInspection,
     Autofix,
@@ -9,7 +9,7 @@ import {
     onAnyPush,
     PushImpact,
     SoftwareDeliveryMachine,
-    SoftwareDeliveryMachineConfiguration,
+    SoftwareDeliveryMachineConfiguration, ToDefaultBranch,
     whenPushSatisfies,
 } from "@atomist/sdm";
 import {
@@ -18,9 +18,15 @@ import {
     goalState, IsInLocalMode,
     isInLocalMode,
 } from "@atomist/sdm-core";
-import { Build } from "@atomist/sdm-pack-build";
-import { singleIssuePerCategoryManaging } from "@atomist/sdm-pack-issue";
-import { codeMetrics } from "@atomist/sdm-pack-sloc";
+import {Build} from "@atomist/sdm-pack-build";
+import {
+    CloudFoundryDeploy,
+    CloudFoundryDeploymentStrategy,
+    CloudFoundrySupport,
+    HasCloudFoundryManifest,
+} from "@atomist/sdm-pack-cloudfoundry";
+import {singleIssuePerCategoryManaging} from "@atomist/sdm-pack-issue";
+import {codeMetrics} from "@atomist/sdm-pack-sloc";
 import {
     HasSpringBootApplicationClass,
     HasSpringBootPom,
@@ -56,10 +62,18 @@ export function machine(
             configuration,
         });
 
-    const autofix = new Autofix()
+    const autofix = new Autofix("")
         .with(AddLicenseFile);
 
     const inspect = new AutoCodeInspection();
+
+    const cfDeployToProduction = new CloudFoundryDeploy({
+        uniqueName: "production-deployment",
+        approval: false,
+        preApproval: false,
+        retry: true,
+    })
+        .with({environment: "production", strategy: CloudFoundryDeploymentStrategy.BLUE_GREEN});
 
     const checkGoals = goals("checks")
         .plan(autofix)
@@ -72,10 +86,14 @@ export function machine(
     const localDeployGoals = goals("deploy")
         .plan(new MavenPerBranchDeployment()).after(buildGoals);
 
+    const cfDeployGoals = goals("cf-deploy")
+        .plan(cfDeployToProduction).after(buildGoals);
+
     sdm.withPushRules(
         onAnyPush().setGoals(checkGoals),
         whenPushSatisfies(IsMaven).setGoals(buildGoals),
         whenPushSatisfies(HasSpringBootPom, HasSpringBootApplicationClass, IsMaven, IsInLocalMode).setGoals(localDeployGoals),
+        whenPushSatisfies(HasSpringBootPom, HasSpringBootApplicationClass, IsMaven, HasCloudFoundryManifest, ToDefaultBranch).setGoals(cfDeployGoals),
     );
     // Spring Extension pack offering: https://github.com/atomist/sdm-pack-spring/blob/master/lib/spring.ts
     sdm.addExtensionPacks(
@@ -93,6 +111,7 @@ export function machine(
                 singleIssuePerCategoryManaging("axon"),
             ],
         }),
+        CloudFoundrySupport({}),
         codeMetrics(),
         goalState(),
         gitHubGoalStatus(),

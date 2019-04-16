@@ -6,5 +6,5 @@ applications:
       - route: axon-sdm.cfapps.io
     env:
       SUPPRESS_NO_CONFIG_WARNING: true
-      ATOMIST_CONFIG: '{"workspaceIds": ["YOUR_ID"],"apiKey":"YOUR_KEY"}'
+      ATOMIST_CONFIG: '{"workspaceIds": ["YOUR_WORSPACE_IDs"],"apiKey":"YOUR_API_KEY","sdm": {"cloudfoundry": {"api": "https://api.run.pivotal.io","user": "idugalic@gmail.com","password": "YOUR_PWS_PASSWORD","org": "axoniq","spaces": {"staging": "staging","production": "production"}}}}'
       NODE_ENV: production

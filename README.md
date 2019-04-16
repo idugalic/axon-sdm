@@ -210,18 +210,22 @@ $ docker build . -t idugalic/axon-sdm
 ```
 Running the Docker container locally:
 ```
-$ docker run -d -e ATOMIST_CONFIG='{"workspaceIds": ["YOUR_WORSPACE_IDs"],"apiKey":"YOUR_API_KEY"}' --name my-axon-sdm idugalic/axon-sdm
+$ docker run -d -e ATOMIST_CONFIG='{"workspaceIds": ["YOUR_WORSPACE_IDs"],"apiKey":"YOUR_API_KEY","sdm": {"cloudfoundry": {"api": "https://api.run.pivotal.io","user": "idugalic@gmail.com","password": "YOUR_PWS_PASSWORD","org": "axoniq","spaces": {"staging": "staging","production": "production"}}}}' --name my-axon-sdm idugalic/axon-sdm
 ```
+
 > In Docker, the SDM will only run in team mode.
 > 
 > On the [web interface](https://app.atomist.com), you can find the Workspace ID on the settings page (click the gear), and your API Key by clicking on your username in the upper right.
 
 #### Cloud Foundry over docker
 
-You can deploy docker image to cloudfoundry as well (make sure your [manifest.yml](manifest.yml) has correct API Key and workspace Ids):
-
 ```
 $ docker push idugalic/axon-sdm
+```
+
+You can deploy docker image to cloudfoundry (make sure your [manifest.yml](manifest.yml) has correct API Key, workspace Ids, and PWS credentials):
+
+```
 $ cf push axon-sdm --docker-image idugalic/axon-sdm -m 1024M -k 2048M
 
 ```
